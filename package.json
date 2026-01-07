@@ -1,0 +1,40 @@
+{
+  "name": "be_server",
+  "version": "1.0.0",
+  "description": "Backend server",
+  "main": "app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "npm run migrate:test && npx nodemon -r dotenv/config app.js",
+    "start:dev": "npm run migrate:test && npx nodemon -r dotenv/config app.js",
+    "start:lint": "npm run lint && npm run migrate:test && npx nodemon -r dotenv/config app.js",
+    "lint": "eslint ./src --fix",
+    "migrate:test": "npx sequelize-cli db:migrate",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
+    "db:create": "npx sequelize-cli db:create",
+    "db:drop": "npx sequelize-cli db:drop"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "backend",
+    "api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "nodemon": "^3.1.11",
+    "sequelize-cli": "^6.6.3"
+  }
+}
