@@ -23,9 +23,9 @@ router.post('/', async (req, res) => {
 });
 
 // GET USER BY UUID
-router.get('/users/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    let userId = req.params.id.trim();
+    const userId = req.params.id.trim();
 
     if (!isUuid(userId)) {
       return res.status(400).json({ success: false, message: 'Invalid UUID' });
@@ -44,9 +44,9 @@ router.get('/users/:id', async (req, res) => {
 });
 
 // UPDATE USER BY UUID
-router.patch('/users/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
-    let userId = req.params.id.trim();
+    const userId = req.params.id.trim();
     const user = await User.findByPk(userId);
 
     if (!user) {
@@ -63,9 +63,9 @@ router.patch('/users/:id', async (req, res) => {
 });
 
 // DELETE USER BY UUID
-router.delete('/users/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
-    let userId = req.params.id.trim();
+    const userId = req.params.id.trim();
 
     if (!isUuid(userId)) {
       return res.status(400).json({ success: false, message: 'Invalid UUID' });
