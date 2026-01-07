@@ -5,7 +5,7 @@
   "main": "app.js",
   "type": "commonjs",
   "scripts": {
-    "start": "npm run migrate:test && npx nodemon -r dotenv/config app.js",
+    "start": "node app.js",
     "start:dev": "npm run migrate:test && npx nodemon -r dotenv/config app.js",
     "start:lint": "npm run lint && npm run migrate:test && npx nodemon -r dotenv/config app.js",
     "lint": "eslint ./src --fix",
@@ -13,7 +13,10 @@
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
     "migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
     "db:create": "npx sequelize-cli db:create",
-    "db:drop": "npx sequelize-cli db:drop"
+    "db:drop": "npx sequelize-cli db:drop",
+         
+  "dev": "nodemon -r dotenv/config app.js",  
+  "migrate": "npx sequelize-cli db:migrate"
   },
   "keywords": [
     "express",
