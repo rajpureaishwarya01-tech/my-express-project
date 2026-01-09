@@ -24,7 +24,9 @@ db.sequelize.authenticate()
 db.sequelize.sync()
   .then(() => console.log('✅ Tables synced'))
   .catch(err => console.error('❌ Sync error', err));
-
+if (!process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET is missing');
+}
 
 
 const PORT = process.env.PORT || 3000;

@@ -1,9 +1,17 @@
 const jwt = require('jsonwebtoken');
-const expiresIn = process.env.JWT_EXPIRES_IN || '1d';
+
 exports.generateToken = (user) => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is missing');
+  }
+
+  const expiresIn = process.env.JWT_EXPIRE || '1d';
+
   const token = jwt.sign(
-  { id: user.id, role: user.role },
-  process.env.JWT_SECRET,
-  { expiresIn }
-);
+    { id: user.id, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn }
+  );
+
+  return token;
 };
