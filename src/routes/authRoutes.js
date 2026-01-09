@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
 const { Op } = require('sequelize');
-
+const jwt = require('jsonwebtoken');
 const db = require('../../database/models'); // ✅ FIX
 const User = db.User;                        // ✅ FIX
 
@@ -28,22 +28,46 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password required' });
     }
 
     const user = await User.findOne({ where: { email } });
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
     const valid = await user.comparePassword(password);
-    if (!valid) return res.status(401).json({ message: 'Invalid password' });
+    if (!valid) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
 
-    res.json({ message: 'Login successful', userId: user.id });
+    // 🔐 CREATE JWT TOKEN
+    const token = jwt.sign(
+      {
+        id: user.id,
+        role: user.role   // USER / ADMIN
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN }
+    );
+
+    res.json({
+      message: 'Login successful',
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role
+      }
+    });
 
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 // ================= Forgot Password =================
 router.post('/forgot-password', async (req, res) => {

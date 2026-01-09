@@ -12,11 +12,20 @@ module.exports = (sequelize, DataTypes) => {
       },
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
-      email: { type: DataTypes.STRING, unique: true },
+      email: { 
+        type: DataTypes.STRING, 
+        unique: true 
+      },
       password: DataTypes.STRING,
+
+      // 🔹 ADD THIS
+      role: {
+        type: DataTypes.ENUM('USER', 'ADMIN'),
+        defaultValue: 'USER'
+      }
     },
     {
-      tableName: 'Users',  // lowercase for PostgreSQL
+      tableName: 'Users',
       freezeTableName: true, 
     }
   );
